@@ -1,25 +1,39 @@
-import React from 'react';
+// import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import axios from 'axios';
 import styles from './LectureList.module.css';
-import { useNavigate } from 'react-router-dom';
+import { Route, Link, useParams, Routes, Router  } from 'react-router-dom';
 
-function LectureList(props){
-    // const lectures = [{value: '가상현실', id: 1}, {value: '인공지능', id: 2}, {value: '컴퓨터공학종합프로젝트2(캡스톤디자인)', id: 3}];
-    const lectures = ['가상현실', '인공지능', '컴퓨터공학종합프로젝트2(캡스톤디자인)'];
+import AttendenceCheck from '../pages/AttendenceCheck'
 
-    const lectureList = lectures.map((lecture) => (
-        
-            <tr>
-                <td><li key={String(lecture)}>{lecture}</li></td>
-                <td><button className='check' onClick={golist}>출석체크</button></td>
-            </tr>
-    ))
-            
-    const movePage = useNavigate();
 
-    function golist(){
-        movePage('/attendence:id');
-      }
+function LectureList(){
+
+    const [inputData, setInputData] = useState()
+
+    useEffect(() => {
+        try {
+            lectureData();
+        } catch(e){
+            console.error(e.message)
+        }
+    }, [])
+
+    async function lectureData() {
+        await axios
+        .get('/api/test')
+        .then((res)=>{
+            console.log(res.data); 
+            setInputData(res.data);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+
+    }
+    
+    const { productId } = useParams();
 
     return (
         <div>
@@ -29,7 +43,18 @@ function LectureList(props){
             <div className={styles.LecturesBox}>
                 <table className={styles.LecturesTable}>
 
-                        {lectureList}
+                {inputData ? inputData.map((inputDatas)=>(
+                        <tr id={inputDatas.lecture_code}>
+                            <td>
+                                    <li>{inputDatas.lecture_name}</li>
+                            </td>
+                            <td className='listTableIndex'>
+                                <button><Link to={`/attendence/${inputDatas.lecture_code}`}>출석체크</Link></button>
+                            </td>
+                        </tr>
+                    
+
+                )) : ''}
 
                 </table>
             </div>
@@ -37,27 +62,6 @@ function LectureList(props){
         
     );
 };
-
-
-
-
-
-// const LectureList = () => {
-
-//     const menus = [{key:1, value:'가상현실'},
-//                {key:2, value:'인공지능'},
-//                {key:3, value:'컴퓨터공학종합프로젝트2(캡스톤디자인)'}];
-//     const menuList = menus.map((index, data) => (<li key={index}>{data}</li>))
-
-//     // return(
-//     //     <ul>
-//     //         {menuList}
-//     //     </ul>
-//     // )
-
-    
-
-//     };
 
 
 export default LectureList;

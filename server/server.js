@@ -21,7 +21,7 @@ app.listen(PORT, () => {
 // const PORT = 3001; // 포트번호 설정
 
 // const db = mysql.createPool({
-//     host: "127.0.0.1",
+//     host: "localhost",
 //     user: "root",
 //     password: "1234",
 //     database: "capstone2"
@@ -36,7 +36,7 @@ app.listen(PORT, () => {
 // app.use(express.urlencoded({ extended: true })) 
 
 // //값을 넣어줌
-// app.get("/api/index", (req, res) => {
+// app.get("/api/test", (req, res) => {
 //     res.header("Access-Control-Allow-Origin", "*");
     
 //     const sqlQuery = "SELECT * FROM capstone2.letures;"
