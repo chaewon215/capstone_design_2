@@ -20,6 +20,7 @@ function StudentList(props){
     return (
         <div className={styles.AttendenceCamBox}>
             <table className={styles.AttendenceCamTable}>
+                {/* thead, tbody 설정하기... */}
                 <tr height='400'>
 
                     <td className={styles.attendenceTd}>
