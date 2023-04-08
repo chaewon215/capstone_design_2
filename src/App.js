@@ -18,8 +18,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route exact path='/' element={<LectureList />}></Route>
-          <Route path='/attendence/:id' element={<AttendenceCheck />}></Route>
-
+          <Route path='/:id' element={<AttendenceCheck />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

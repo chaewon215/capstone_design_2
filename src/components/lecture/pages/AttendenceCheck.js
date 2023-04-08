@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styles from './AttendenceCheck.module.css';
-import { useNavigate } from 'react-router-dom';
-
-function StudentList(props){
-
-    const students_attendence = [{value: '구하영', id: '-'}, {value: '김채원', id: '-'}, {value: '홍길동', id: '-'}]
+import axios from 'axios';
+import { useNavigate, Route, Link, useParams, Routes, Router } from 'react-router-dom';
 
 
-    const studentAttendenceList = students_attendence.map((student, index) => (
-            <tr>
-                <td><li key={String(student)}>{student.value}</li></td>
-                <td><li key={String(index)}>{student.id}</li></td>      
-            </tr>
-    ))
-       
+function StudentList(){
+
+    const [inputData, setInputData] = useState()
+
+    useEffect(() => {
+        try {
+            studentForLectureData();
+        } catch(e){
+            console.error(e.message)
+        }
+    }, [])
+
+    async function studentForLectureData() {
+        await axios
+        .get('/api/attendence')
+        .then((res)=>{
+            console.log('attendenceCheck.js', res.data.lecture_code);
+            setInputData(res.data);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+
+    }
+
 
 
     return (
@@ -28,7 +43,18 @@ function StudentList(props){
                                 <th width='150' align="center">학생명</th>
                                 <th width='70' align="center">출석</th>
                             </tr>
-                                {studentAttendenceList}
+                            {inputData ? inputData.map((inputDatas)=>(
+                                <tr id={inputDatas.student_id}>
+                                    <td>
+                                            <li>{inputDatas.student_name}</li>
+                                    </td>
+                                    <td className='listTableIndex'>
+                                        <p>-</p>
+                                        {/* <button><Link to={`/attendence/${inputDatas.lecture_code}`}>출석체크</Link></button> */}
+                                    </td>
+                                </tr>
+        
+                            )) : ''}
                         </table>
                     </td>
         

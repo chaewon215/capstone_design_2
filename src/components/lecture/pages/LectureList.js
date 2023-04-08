@@ -33,7 +33,7 @@ function LectureList(){
 
     }
     
-    const { productId } = useParams();
+    const { id } = useParams();
 
     return (
         <div>
@@ -48,8 +48,12 @@ function LectureList(){
                             <td>
                                     <li>{inputDatas.lecture_name}</li>
                             </td>
-                            <td className='listTableIndex'>
-                                <button><Link to={`/attendence/${inputDatas.lecture_code}`}>출석체크</Link></button>
+                            <td border='none'>
+                                {/* <button><Link to={`/attendence/${inputDatas.lecture_code}`}>출석체크</Link></button> */}
+                                {/* <button type='button' onClick={`/attendence/?id=${inputDatas.lecture_code}`}>출석체크</button> */}
+                                <Link to={`/${inputDatas.lecture_code}`}>
+                                    <button>출석체크</button>
+                                </Link>
                             </td>
                         </tr>
                     

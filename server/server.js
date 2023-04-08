@@ -13,7 +13,7 @@ app.listen(PORT, () => {
 })
 
 // const express = require("express"); // npm i express | yarn add express
-// const cors  = require("cors");    // npm i cors | yarn add cors
+const cors  = require("cors");    // npm i cors | yarn add cors
 // const mysql = require("mysql");   // npm i mysql | yarn add mysql
 // const app  = express();
 // const path = require('path'); 
@@ -27,11 +27,11 @@ app.listen(PORT, () => {
 //     database: "capstone2"
 // });
 
-// app.use(cors({
-//     origin: "*",                // 출처 허용 옵션
-//     credentials: true,          // 응답 헤더에 Access-Control-Allow-Credentials 추가
-//     optionsSuccessStatus: 200,  // 응답 상태 200으로 설정
-// }))
+app.use(cors({
+    origin: "*",                // 출처 허용 옵션
+    credentials: true,          // 응답 헤더에 Access-Control-Allow-Credentials 추가
+    optionsSuccessStatus: 200,  // 응답 상태 200으로 설정
+}))
 
 // app.use(express.urlencoded({ extended: true })) 
 
