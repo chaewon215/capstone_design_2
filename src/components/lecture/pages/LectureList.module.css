@@ -53,3 +53,7 @@ table {
     height: 50px;
     position: relative;
 }
+
+.listTableIndex {
+    height: 20px;
+}
