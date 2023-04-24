@@ -12,7 +12,7 @@ function StudentList(){
     var month = ('0' + (today.getMonth() + 1)).slice(-2);
     var date = ('0' + today.getDate()).slice(-2);
     var yyyy_mm_dd = year + '_' + month + '_' + date
-    var _mm_dd = '_' + month + '_' + date
+    var attendence_mm_dd = 'attendence_' + month + '_' + date
 
 
     const [inputData, setInputData] = useState()
@@ -43,9 +43,12 @@ function StudentList(){
 
         <div className={styles.AttendenceCamBox}>
                 <table className={styles.AttendenceCamTable}>
+                {/* {inputData ? inputData.map((inputDatas)=>(
+                    <tr height='100px'>
+                        <p>{inputDatas.lecture_code}</p>
+                    </tr>
+                    ))[0] : ''} */}
                         <tr height='400'>
-
-                        
                             <td className={styles.attendenceTd}>
                                 <table className={styles.AttendenceCheckTable}>
                                     <tr height='40px'>
@@ -60,7 +63,7 @@ function StudentList(){
                                             </td>
                                             <td>
                                                 <p className={styles.pMargin}>
-                                                    {inputDatas[`attendence${_mm_dd}`]}
+                                                    {inputDatas[`${attendence_mm_dd}`]}
                                                 </p>
                                             </td>
                                         </tr>           
@@ -82,7 +85,7 @@ function StudentList(){
                 <div className={styles.modifyBtn}>
                     {inputData ? inputData.map((inputDatas)=>(
 
-                        <Link to={`/${inputDatas.lecture_code}/modify`}>
+                        <Link to={`/${inputDatas.lecture_code}/edit`}>
                             <button>수정</button>
                         </Link>
                     ))[0] : ''}

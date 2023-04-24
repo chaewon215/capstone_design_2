@@ -20,7 +20,7 @@ function App() {
         <Routes>
           <Route exact path='/' element={<LectureList />}></Route>
           <Route path='/:id' element={<AttendenceCheck />}></Route>
-          <Route path='/:id/modify' element={<ModifyAttendence />}></Route>
+          <Route path='/:id/edit' element={<ModifyAttendence />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

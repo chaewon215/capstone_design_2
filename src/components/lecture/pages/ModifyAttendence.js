@@ -6,6 +6,15 @@ import { useNavigate, Route, Link, useParams, Routes, Router } from 'react-route
 
 
 const ModifyAttendence = () => {
+
+  var today = new Date();
+  var year = today.getFullYear();
+  var month = ('0' + (today.getMonth() + 1)).slice(-2);
+  var date = ('0' + today.getDate()).slice(-2);
+  var yyyy_mm_dd = year + '_' + month + '_' + date
+  var _mm_dd = '_' + month + '_' + date
+
+
   const [fetchedData, setFetchedData] = useState({});
   const [modifiedData, setModifiedData] = useState({});
 
@@ -16,9 +25,10 @@ const ModifyAttendence = () => {
   // 서버에서 데이터를 가져오는 함수
   const fetchData = async () => {
     try{
-      const response = await axios.get('/api/attendence/modify');
+      const response = await axios.get('/api/edit');
       // 가져온 데이터를 state에 저장
       setFetchedData(response.data);
+      console.log('.get response.data', response.data);
     } catch (err) {
       console.error(err);
     }
@@ -27,8 +37,8 @@ const ModifyAttendence = () => {
   // 수정된 데이터를 서버에 보내는 함수
   const handleDataUpdate = async () => {
     try {
-      const response = await axios.post('/api/attendence/modify');
-      console.log(response.data);
+      const response = await axios.post('/api/edit', modifiedData);
+      console.log('.post response.data', response.data);
     } catch (err) {
       console.error(err);
     }
@@ -54,7 +64,7 @@ const ModifyAttendence = () => {
                             <th width='150' align="center">학생명</th>
                             <th width='70' align="center">출석</th>
                         </tr>
-                        {fetchedData ? fetchedData.map((fetchedDatas)=>(
+                        {Object.values(fetchedData) ? Object.values(fetchedData).map((fetchedDatas)=>(
                             
                             <tr id={fetchedDatas.student_id} height='30px'>
                                 <td>
@@ -63,7 +73,7 @@ const ModifyAttendence = () => {
                                 <td className={styles.pMargin}>
                                     {/* <p>{inputDatas[`attendence${_mm_dd}`]}</p> */}
                                     {/* <select onChange={handleInputChange} name={`${itemData[0].student_id}`} value={itemData[0].attendence_04_12 || ''}>{options}</select> */}
-                                    <select onChange={handleInputChange} name={attendenceInfo} value={fetchedDatas.attendence_04_13}>
+                                    <select onChange={handleInputChange} name={fetchedDatas.student_name}>
                                       <option value="-">-</option>
                                       <option value="O">O</option>
                                       <option value="X">X</option>
@@ -87,9 +97,9 @@ const ModifyAttendence = () => {
         </table>
 
         <div className={styles.modifyBtn}>
-            {inputData ? inputData.map((inputDatas)=>(
-                <Link to={`/${inputDatas.lecture_code}`}>
-                    <button onClick={handleSave}>저장</button>
+            {Object.values(fetchedData) ? Object.values(fetchedData).map((fetchedDatas)=>(
+                <Link to={`/${fetchedDatas.lecture_code}`}>
+                    <button onClick={handleDataUpdate}>저장</button>
                     <button>취소</button>
                 </Link>
             ))[0] : ''}
