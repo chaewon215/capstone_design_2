@@ -144,9 +144,9 @@ router.post('/edit', (req, res) => {
 );
 
 
-router.get('/live', function(req, res) {
-    res.sendFile('C:/Users/user/Desktop/face-recognition/yolov5-master/yolov5s_web_model' + '/model.json');
-});
+// router.get('/live', function(req, res) {
+//     res.sendFile('public/yolov5s_web_model' + '/model.json');
+// });
   
 
 module.exports = router;

@@ -1,8 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import styles from './AttendenceCheck.module.css';
 import axios from 'axios';
 import { useNavigate, Route, Link, useParams, Routes, Router } from 'react-router-dom';
+
+import * as tf from "@tensorflow/tfjs";
+import "@tensorflow/tfjs-backend-webgl"; // set backend to webgl
+import Loader from "../../../components/loader";
+import ButtonHandler from "../../../components/btn-handler";
+import { detectImage, detectVideo } from "../../../utils/detect";
+import "../../../style/Live.css";
+
+// import Live from "../../../components/lecture/live/Live.js";
+
 
 
 function StudentList(){
@@ -41,7 +51,48 @@ function StudentList(){
 
 
 
+    // -----------------------------------------------------------------
 
+    const [loading, setLoading] = useState({ loading: true, progress: 0 }); // loading state
+  const [model, setModel] = useState({
+    net: null,
+    inputShape: [1, 0, 0, 3],
+  }); // init model & input shape
+
+  // references
+  const imageRef = useRef(null);
+  const cameraRef = useRef(null);
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+
+  // model configs
+  const modelName = "yolov5s";
+  const classThreshold = 0.2;
+
+  useEffect(() => {
+    tf.ready().then(async () => {
+      const yolov5 = await tf.loadGraphModel(
+        `${window.location.origin}/${modelName}_web_model/model.json`,
+        {
+          onProgress: (fractions) => {
+            setLoading({ loading: true, progress: fractions }); // set loading fractions
+          },
+        }
+      ); // load model
+
+      // warming up model
+      const dummyInput = tf.ones(yolov5.inputs[0].shape);
+      const warmupResult = await yolov5.executeAsync(dummyInput);
+      tf.dispose(warmupResult); // cleanup memory
+      tf.dispose(dummyInput); // cleanup memory
+
+      setLoading({ loading: false, progress: 1 });
+      setModel({
+        net: yolov5,
+        inputShape: yolov5.inputs[0].shape,
+      }); // set model & input shape
+    });
+  }, []);
 
 
 
@@ -83,11 +134,27 @@ function StudentList(){
                             </td>
                         
                             <td className={styles.ipCamTd}>
-                                <td><button className={styles.startCam}>시작</button></td>
+                                <td>
+                                    <ButtonHandler cameraRef={cameraRef} />
+                                    
+                                </td>
                                 
-                                <video controls='controls' poster='http://via.placeholder.com/640x360'>
-                                </video>
+
+                                <div className="content" >
+                                        <video
+                                        //   style
+                                        autoPlay
+                                        muted
+                                        ref={cameraRef}
+                                        onPlay={() => detectVideo(cameraRef.current, model, classThreshold, canvasRef.current)}
+                                        />
+                                        <canvas width={model.inputShape[1]} height={model.inputShape[2]} ref={canvasRef} />
+                                    </div>
+
                                 
+                                <div className="App">
+                                    {loading.loading && <Loader>Loading model... {(loading.progress * 100).toFixed(2)}%</Loader>}                                    
+                                </div>
                             </td>
 
                         </tr>

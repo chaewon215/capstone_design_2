@@ -86,13 +86,13 @@ const ModifyAttendence = () => {
                     </table>
                 </td>
     
-                <td className={styles.ipCamTd}>
+                {/* <td className={styles.ipCamTd}>
                     <td><button className={styles.startCam}>시작</button></td>
                     
                     <video controls='controls' poster='http://via.placeholder.com/640x360'>
                     </video>
                     
-                </td>
+                </td> */}
             </tr>
         </table>
 

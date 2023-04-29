@@ -20,10 +20,10 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          {/* <Route exact path='/' element={<LectureList />}></Route> */}
+          <Route exact path='/' element={<LectureList />}></Route>
           <Route path='/:id' element={<AttendenceCheck />}></Route>
           <Route path='/:id/edit' element={<ModifyAttendence />}></Route>
-          <Route exact path='/' element={<Live />}></Route>
+          {/* <Route exact path='/' element={<Live />}></Route> */}
         </Routes>
       </BrowserRouter>
     </div>

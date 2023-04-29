@@ -1,100 +1,91 @@
-import React, { useEffect, useState, useRef } from 'react';
-import * as tf from '@tensorflow/tfjs';
-import Webcam from 'react-webcam';
-import { loadGraphModel } from '@tensorflow/tfjs-converter';
-// import styles from './ModifyAttendence.module.css';
+import React, { useState, useEffect, useRef } from "react";
+import * as tf from "@tensorflow/tfjs";
+import "@tensorflow/tfjs-backend-webgl"; // set backend to webgl
+import Loader from "../../../components/loader";
+import ButtonHandler from "../../../components/btn-handler";
+import { detectImage, detectVideo } from "../../../utils/detect";
+import "../../../style/Live.css";
 
 const Live = () => {
+  const [loading, setLoading] = useState({ loading: true, progress: 0 }); // loading state
+  const [model, setModel] = useState({
+    net: null,
+    inputShape: [1, 0, 0, 3],
+  }); // init model & input shape
 
-
-  const webcamRef = useRef(null);
+  // references
+  const imageRef = useRef(null);
+  const cameraRef = useRef(null);
+  const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const [model, setModel] = useState(null);
+
+  // model configs
+  const modelName = "yolov5s";
+  const classThreshold = 0.2;
 
   useEffect(() => {
-    async function loadModel() {
-      const loadedModel = await tf.loadGraphModel('http://localhost:3000/model');
-      setModel(loadedModel);
-    }
+    tf.ready().then(async () => {
+      const yolov5 = await tf.loadGraphModel(
+        `${window.location.origin}/${modelName}_web_model/model.json`,
+        {
+          onProgress: (fractions) => {
+            setLoading({ loading: true, progress: fractions }); // set loading fractions
+          },
+        }
+      ); // load model
 
-    async function loadModel() {
-        const response = await fetch('/api/live');
-        const model = await response.json();
-        console.log('모델 로드')
-        console.log(model);
-        setModel(model);
-      }
-    loadModel();
-    
+      // warming up model
+      const dummyInput = tf.ones(yolov5.inputs[0].shape);
+      const warmupResult = await yolov5.executeAsync(dummyInput);
+      tf.dispose(warmupResult); // cleanup memory
+      tf.dispose(dummyInput); // cleanup memory
+
+      setLoading({ loading: false, progress: 1 });
+      setModel({
+        net: yolov5,
+        inputShape: yolov5.inputs[0].shape,
+      }); // set model & input shape
+    });
   }, []);
 
-  useEffect(() => {
-    if (model && webcamRef.current) {
-      detectFrame();
-    }
-  }, [model, webcamRef]);
-
-  const detectFrame = () => {
-    const video = webcamRef.current.video;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    console.log(model.modelTopology.node[637])
-    console.log(model.signature.outputs.Identity_3)
-
-
-    const modelWidth = model.inputs[0].shape[2];
-    const modelHeight = model.inputs[0].shape[1];
-    canvas.width = modelWidth;
-    canvas.height = modelHeight;
-    setInterval(async () => {
-      const img = tf.browser.fromPixels(video);
-      const resized = tf.image.resizeBilinear(img, [modelHeight, modelWidth]);
-      const casted = resized.cast('int32');
-      const expanded = casted.expandDims(0);
-      const obj = await model.executeAsync(expanded);
-      const boxes = await obj[0].array();
-      const scores = await obj[1].array();
-      const classes = await obj[2].array();
-      const detections = [];
-      boxes[0].forEach((box, i) => {
-        const minY = box[0] * video.videoHeight;
-        const minX = box[1] * video.videoWidth;
-        const maxY = box[2] * video.videoHeight;
-        const maxX = box[3] * video.videoWidth;
-        const score = scores[0][i];
-        const clazz = classes[0][i];
-        if (score > 0.75) {
-          detections.push({ minY, minX, maxY, maxX, score, clazz });
-        }
-      });
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      detections.forEach(detection => {
-        const { minY, minX, maxY, maxX } = detection;
-        const width = maxX - minX;
-        const height = maxY - minY;
-        ctx.beginPath();
-        ctx.rect(minX, minY, width, height);
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = '#ff0000';
-        ctx.stroke();
-      });
-      tf.dispose([img, resized, casted, expanded, obj]);
-    }, 1000 / 30);
-  };
-
   return (
-    <div>
-      <Webcam
-        ref={webcamRef}
-        width={640}
-        height={360}
-        videoConstraints={{ facingMode: 'user' }}
-      />
-      <canvas
-        ref={canvasRef}
-      />
+    <div className="App">
+      {loading.loading && <Loader>Loading model... {(loading.progress * 100).toFixed(2)}%</Loader>}
+      <div className="header">
+        <h1>📷 YOLOv5 Live Detection App</h1>
+        <p>
+          YOLOv5 live detection application on browser powered by <code>tensorflow.js</code>
+        </p>
+        <p>
+          Serving : <code className="code">{modelName}</code>
+        </p>
+      </div>
+
+      <div className="content">
+        {/* <img
+          src="#"
+          ref={imageRef}
+          onLoad={() => detectImage(imageRef.current, model, classThreshold, canvasRef.current)}
+        /> */}
+        <video
+          style
+          autoPlay
+          muted
+          ref={cameraRef}
+          onPlay={() => detectVideo(cameraRef.current, model, classThreshold, canvasRef.current)}
+        />
+        {/* <video
+          autoPlay
+          muted
+          ref={videoRef}
+          onPlay={() => detectVideo(videoRef.current, model, classThreshold, canvasRef.current)}
+        /> */}
+        <canvas width={model.inputShape[1]} height={model.inputShape[2]} ref={canvasRef} />
+      </div>
+
+      <ButtonHandler imageRef={imageRef} cameraRef={cameraRef} videoRef={videoRef} />
     </div>
   );
-}
+};
 
 export default Live;
