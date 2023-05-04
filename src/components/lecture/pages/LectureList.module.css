@@ -57,3 +57,7 @@ table {
 .listTableIndex {
     height: 20px;
 }
+
+button {
+    cursor: pointer;
+}

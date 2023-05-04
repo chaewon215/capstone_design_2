@@ -5,6 +5,8 @@ import axios from 'axios';
 import LectureList from './components/lecture/pages/LectureList';
 import AttendenceCheck from './components/lecture/pages/AttendenceCheck';
 import ModifyAttendence from './components/lecture/pages/ModifyAttendence.js'
+import Live from './components/lecture/live/Live.js'
+
 // import Dashboard from './components/lectures/pages/Dashboard';
 
 function App() {
@@ -20,7 +22,8 @@ function App() {
         <Routes>
           <Route exact path='/' element={<LectureList />}></Route>
           <Route path='/:id' element={<AttendenceCheck />}></Route>
-          <Route path='/:id/modify' element={<ModifyAttendence />}></Route>
+          <Route path='/:id/edit' element={<ModifyAttendence />}></Route>
+          {/* <Route exact path='/' element={<Live />}></Route> */}
         </Routes>
       </BrowserRouter>
     </div>
