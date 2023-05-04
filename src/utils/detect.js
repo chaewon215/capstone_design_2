@@ -55,7 +55,11 @@ export const detectImage = async (imgSource, model, classThreshold, canvasRef) =
     const classes_data = classes.dataSync();
     renderBoxes(canvasRef, classThreshold, boxes_data, scores_data, classes_data, [xRatio, yRatio]); // render boxes
     tf.dispose(res); // clear memory
+  console.log(classes_data)
+    
   });
+
+    
 
   tf.engine().endScope(); // end of scoping
 };

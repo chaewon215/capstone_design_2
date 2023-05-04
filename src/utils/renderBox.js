@@ -37,6 +37,8 @@ export const renderBoxes = (
       const color = colors.get(classes_data[i]);
       const score = (scores_data[i] * 100).toFixed(1);
 
+      console.log(klass)
+
       let [x1, y1, x2, y2] = boxes_data.slice(i * 4, (i + 1) * 4);
       x1 *= canvasRef.width * ratios[0];
       x2 *= canvasRef.width * ratios[0];

@@ -85,12 +85,21 @@ function StudentList(){
       const warmupResult = await yolov5.executeAsync(dummyInput);
       tf.dispose(warmupResult); // cleanup memory
       tf.dispose(dummyInput); // cleanup memory
-
+      console.log('model', model)
       setLoading({ loading: false, progress: 1 });
       setModel({
         net: yolov5,
         inputShape: yolov5.inputs[0].shape,
       }); // set model & input shape
+
+    //   console.log('model', model)
+    //   console.log('yolov5', yolov5);
+
+      
+
+    //   console.log('yolov5', yolov5);
+    //   console.log('yolov5', yolov5);
+
     });
   }, []);
 

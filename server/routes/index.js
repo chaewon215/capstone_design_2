@@ -144,9 +144,6 @@ router.post('/edit', (req, res) => {
 );
 
 
-// router.get('/live', function(req, res) {
-//     res.sendFile('public/yolov5s_web_model' + '/model.json');
-// });
   
 
 module.exports = router;
