@@ -55,7 +55,9 @@ export const detectImage = async (imgSource, model, classThreshold, canvasRef) =
     const classes_data = classes.dataSync();
     renderBoxes(canvasRef, classThreshold, boxes_data, scores_data, classes_data, [xRatio, yRatio]); // render boxes
     tf.dispose(res); // clear memory
+
   console.log(classes_data)
+  console.log(scores_data)
     
   });
 
@@ -71,9 +73,9 @@ export const detectImage = async (imgSource, model, classThreshold, canvasRef) =
  * @param {Number} classThreshold class threshold
  * @param {HTMLCanvasElement} canvasRef canvas reference
  */
-export const detectVideo = (vidSource, model, classThreshold, canvasRef) => {
+export const detectVideo = (vidSource, '../public/yolov5n_web_model/model.json', classThreshold, canvasRef) => {
   const [modelWidth, modelHeight] = model.inputShape.slice(1, 3); // get model width and height
-
+  console.log(model);
   /**
    * Function to detect every frame from video
    */
