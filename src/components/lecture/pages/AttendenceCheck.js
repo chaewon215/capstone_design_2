@@ -7,9 +7,11 @@ import { useNavigate, Route, Link, useParams, Routes, Router } from 'react-route
 import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-backend-webgl"; // set backend to webgl
 import Loader from "../../../components/loader";
-import ButtonHandler from "../../../components/btn-handler";
+import { ButtonHandler, updatedAttend } from "../../../components/btn-handler";
 import { detectImage, detectVideo } from "../../../utils/detect";
 import "../../../style/Live.css";
+import { renderBoxes, Attendence } from "../../../utils/renderBox";
+import labels from "../../../utils/labels.json";
 
 // import Live from "../../../components/lecture/live/Live.js";
 
@@ -124,7 +126,7 @@ function StudentList(){
                                 <table className={styles.AttendenceCheckTable}>
                                     <tr height='40px'>
                                         <th width='150' align="center">학생명</th>
-                                        <th width='70' align="center">출석</th>
+                                        <th width='70' align="center">출석여부</th>
                                     </tr>
                                     
                                     {inputData ? inputData.map((inputDatas)=>(                 

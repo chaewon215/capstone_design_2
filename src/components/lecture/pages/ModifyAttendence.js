@@ -62,7 +62,7 @@ const ModifyAttendence = () => {
                     <table className={styles.AttendenceCheckTable}>
                         <tr height='40'>
                             <th width='150' align="center">학생명</th>
-                            <th width='70' align="center">출석</th>
+                            <th width='70' align="center">출석여부</th>
                         </tr>
                         {Object.values(fetchedData) ? Object.values(fetchedData).map((fetchedDatas)=>(
                             
@@ -74,10 +74,10 @@ const ModifyAttendence = () => {
                                     {/* <p>{inputDatas[`attendence${_mm_dd}`]}</p> */}
                                     {/* <select onChange={handleInputChange} name={`${itemData[0].student_id}`} value={itemData[0].attendence_04_12 || ''}>{options}</select> */}
                                     <select onChange={handleInputChange} name={fetchedDatas.student_name}>
-                                      <option value="-">-</option>
-                                      <option value="O">O</option>
-                                      <option value="X">X</option>
-                                      <option value="L">L</option>
+                                      <option value=""></option>
+                                      <option value="출석">출석</option>
+                                      <option value="결석">결석</option>
+                                      <option value="지각">지각</option>
                                     </select>
                                 </td>
                             </tr>

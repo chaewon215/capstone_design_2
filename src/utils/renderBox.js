@@ -1,3 +1,4 @@
+import { log, time } from "@tensorflow/tfjs";
 import labels from "./labels.json";
 
 /**
@@ -9,6 +10,34 @@ import labels from "./labels.json";
  * @param {Array} classes_data class array
  * @param {Array[Number]} ratios boxes ratio [xRatio, yRatio]
  */
+
+let count = 0;
+
+// function Attendence(detectedObject, count) {
+//   this.detectedObject = detectedObject;
+//   this.count = count;
+// }
+
+// for (let i=0; i < Object.keys(labels).length; i++) {
+//   const student1 =  Attendence(labels[i], 0);
+// }
+
+// let Attendence = {};
+// for (let i = 0; i <= labels.length; i++) { 
+//   Attendence['name'] = labels[i];
+//   Attendence['count'] = 0
+//   console.log(i)
+// }
+
+export const Attendence = new Map();
+Attendence['default'] = [];
+for (let i = 0; i <= labels.length; i++) { 
+  Attendence[labels[i]] = [];
+}
+
+
+
+
 export const renderBoxes = (
   canvasRef,
   classThreshold,
@@ -21,7 +50,6 @@ export const renderBoxes = (
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // clean canvas
 
   const colors = new Colors();
-
   // font configs
   const font = `${Math.max(
     Math.round(Math.max(ctx.canvas.width, ctx.canvas.height) / 40),
@@ -37,7 +65,28 @@ export const renderBoxes = (
       const color = colors.get(classes_data[i]);
       const score = (scores_data[i] * 100).toFixed(1);
 
-      console.log(klass)
+      // console.log('labels', labels);
+      // console.log(klass, score);
+      // console.log('scores_data ', scores_data);
+
+
+
+
+
+    if (count > 100 && score >= 50) {
+      // detectedObject.push(klass);
+      // console.log('Attendence', Attendence);
+
+      // console.log(detectedObject);
+      // console.log(count);
+
+      Attendence[klass].push(true);
+      count = 0;
+
+      console.log(Attendence[klass].length);
+      // console.log('Attendence', Attendence);
+    }
+      
 
       let [x1, y1, x2, y2] = boxes_data.slice(i * 4, (i + 1) * 4);
       x1 *= canvasRef.width * ratios[0];
@@ -70,9 +119,15 @@ export const renderBoxes = (
       // Draw labels
       ctx.fillStyle = "#ffffff";
       ctx.fillText(klass + " - " + score + "%", x1 - 1, yText < 0 ? 0 : yText);
+    
     }
   }
+  count ++;
+  Attendence['default'].push(true);
+
+  return Attendence;
 };
+
 
 class Colors {
   // ultralytics color palette https://ultralytics.com/

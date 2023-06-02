@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-backend-webgl"; // set backend to webgl
 import Loader from "../../../components/loader";
-import ButtonHandler from "../../../components/btn-handler";
+import { ButtonHandler, updatedAttend } from "../../../components/btn-handler";
 import { detectImage, detectVideo } from "../../../utils/detect";
+
 import "../../../style/Live.css";
 
 const Live = () => {
@@ -13,6 +14,8 @@ const Live = () => {
     inputShape: [1, 0, 0, 3],
   }); // init model & input shape
 
+  // console.log('model', model);
+
   // references
   const imageRef = useRef(null);
   const cameraRef = useRef(null);
@@ -20,19 +23,21 @@ const Live = () => {
   const canvasRef = useRef(null);
 
   // model configs
-  const modelName = "yolov5s";
+  const modelName = "yolov5n";
   const classThreshold = 0.2;
 
   useEffect(() => {
     tf.ready().then(async () => {
       const yolov5 = await tf.loadGraphModel(
-        `${window.location.origin}/${modelName}_web_model/model.json`,
+        // `${window.location.origin}/${modelName}_web_model/model.json`,
+        'http://localhost:3000/best_web_model/model.json',
         {
           onProgress: (fractions) => {
             setLoading({ loading: true, progress: fractions }); // set loading fractions
           },
         }
       ); // load model
+      
 
       // warming up model
       const dummyInput = tf.ones(yolov5.inputs[0].shape);
@@ -43,7 +48,7 @@ const Live = () => {
       setLoading({ loading: false, progress: 1 });
       setModel({
         net: yolov5,
-        inputShape: yolov5.inputs[0].shape,
+        inputShape: yolov5.inputs[0].shape
       }); // set model & input shape
     });
   }, []);

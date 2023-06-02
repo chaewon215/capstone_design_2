@@ -1,7 +1,18 @@
 import { useState, useRef } from "react";
 import { Webcam } from "../utils/webcam";
+import { Attendence } from "../utils/renderBox";
+import labels from "../utils/labels.json";
+import axios from 'axios';
+import { useNavigate, Route, Link, useParams, Routes, Router } from 'react-router-dom';
 
-const ButtonHandler = ({ imageRef, cameraRef, videoRef }) => {
+
+export const updatedAttend = new Map();
+for (let i = 0; i <= labels.length; i++) { 
+  updatedAttend[labels[i]] = '-';
+}
+
+
+export const ButtonHandler = ({ imageRef, cameraRef, videoRef }) => {
   const [streaming, setStreaming] = useState(null); // streaming state
   const inputImageRef = useRef(null); // video input reference
   const inputVideoRef = useRef(null); // video input reference
@@ -28,6 +39,11 @@ const ButtonHandler = ({ imageRef, cameraRef, videoRef }) => {
     inputVideoRef.current.value = ""; // reset input video
     videoRef.current.style.display = "none"; // hide video
   };
+
+
+
+
+
 
   return (
     <div className="btn-container">
@@ -99,10 +115,42 @@ const ButtonHandler = ({ imageRef, cameraRef, videoRef }) => {
             webcam.close(cameraRef.current);
             cameraRef.current.style.display = "none";
             setStreaming(null);
-          } else alert(`Can't handle more than 1 stream\nCurrently streaming : ${streaming}`); // if streaming video
-        }}
+
+            // console.log('AttendenceCheck.js ', Attendence);
+            for (let i=0; i< labels.length; i++){
+              console.log('Attendence[labels[i]].length ', Attendence[labels[i]].length);
+              console.log('parseInt(Attendence["default"].length / 100) ', parseInt(Attendence['default'].length * 0.8 / 100)-1 )
+	              if (Attendence[labels[i]].length >= parseInt(Attendence['default'].length * 0.8 / 100))
+                  {updatedAttend[labels[i]] = '출석'}   
+                else if (Attendence[labels[i]].length >= parseInt(Attendence['default'].length * 0.6 / 100))
+                  {updatedAttend[labels[i]] = '지각'}                
+                else {updatedAttend[labels[i]] = '결석'}
+            axios
+            .post("/api/update", updatedAttend)
+            .then((response) => {
+              // 서버 응답 처리
+              console.log(updatedAttend);
+              // console.log(response.data); // 응답 데이터 출력
+              console.log("success--------------------------------------------------------------");
+            })
+            .catch((error) => {
+              // 에러 처리
+              console.log('e')
+              console.error(error);
+            });
+            }
+        window.location.reload();
+
+          } else alert(`Can't handle more than 1 stream\nCurrently streaming : ${streaming}`); // if streaming video  
+        
+      
+        }
+      
+      }
       >
         출석체크 {streaming === "camera" ? "종료" : "시작"}
+
+        
       </button>
     </div>
   );

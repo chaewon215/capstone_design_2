@@ -8,6 +8,55 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
 
+// const util = require('util');
+// const PORT = 3001; // 포트번호 설정
+
+
+// router.use(cors({
+//     origin: "*",                // 출처 허용 옵션
+//     credentials: true,          // 응답 헤더에 Access-Control-Allow-Credentials 추가
+//     optionsSuccessStatus: 200,  // 응답 상태 200으로 설정
+// }))
+
+router.use(express.json());
+router.use(express.urlencoded({ extended: true })) 
+
+router.get("/user_inform", (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    const sqlQuery = "SELECT * FROM capstone2.user;"
+    db.query(sqlQuery, (err, result) => {
+        res.send(result);
+        console.log(result);
+    });
+});
+
+router.post('/user_inform', (req, res) => {
+    const user_ID = req.body.user_ID;
+    const user_pw = req.body.user_pw;
+  
+    const query = `SELECT COUNT(*) AS count FROM capstone2.user WHERE user_ID = ? AND user_pw = ?`;
+  
+    db.query(query, [user_ID, user_pw], (error, results) => {
+      if (error) {
+        console.log(error);
+      }
+      
+      const count = results[0].count;
+      const result = (count === 1);
+  
+      res.send({
+        result: result
+      });
+    });
+  });
+
+
+// router.listen(PORT, () => {
+//     console.log(`server running on port ${PORT}`);
+// });
+
+
+
 router.get('/test', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
 
@@ -28,7 +77,7 @@ router.get('/test', (req, res) => {
                 if (Object.values(result[0])[0] === 0) {
         
                     var sql_mkcol = `ALTER TABLE studentforlecture ADD ${attendence_mm_dd} varchar(5);`
-                    var sql_init = `UPDATE studentforlecture SET ${attendence_mm_dd}='-';`
+                    var sql_init = `UPDATE studentforlecture SET ${attendence_mm_dd}='출석';`
         
         
                     db.query(sql_mkcol, (err1, result1) => {
@@ -144,6 +193,49 @@ router.post('/edit', (req, res) => {
 );
 
 
+router.post('/update', (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+
+    var today = new Date();
+    var month = ('0' + (today.getMonth() + 1)).slice(-2);
+    var date = ('0' + today.getDate()).slice(-2);
+    var attendence_mm_dd = 'attendence_' + month + '_' + date
+
+    // var q = url.parse(req.headers.referer);
+    // var lecture_code = q.path.split('/')[1];
+    
+    var q = url.parse(req.headers.referer);
+    var lecture_code = q.path.substring(1);
+    console.log('lecture_code', lecture_code);
+    console.log('update req ', req);
+    
+    var studentList = Object.keys(req.body);
+    var attendenceList = Object.values(req.body);
+
+    console.log('studentList', studentList);
+    console.log('attendenceList', attendenceList);
+
+
+    var sql_edit = `UPDATE studentforlecture SET ${attendence_mm_dd}=? WHERE student_name=? AND lecture_code=?;`;
+
+    for (var i = 0; i < studentList.length; i++) {
+        var studentName = studentList[i];
+        var attendence = attendenceList[i];
+      
+        // SQL 쿼리 실행
+        db.query(sql_edit, [attendence, studentName, lecture_code], (err, result) => {
+          if (err) {
+            // 에러 처리
+            console.error(err);
+          } else {
+            // 결과 처리
+            console.log('Updated student: ' + studentName[i]);
+          }
+        });
+
+    };
+    }
+)
   
 
 module.exports = router;
