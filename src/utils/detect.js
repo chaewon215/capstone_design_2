@@ -1,6 +1,5 @@
 import * as tf from "@tensorflow/tfjs";
-import { renderBoxes } from "./renderBox";
-
+import { renderBoxes, Attendence } from "./renderBox";
 /**
  * Preprocess image / frame before forwarded into the model
  * @param {HTMLVideoElement|HTMLImageElement} source
@@ -53,16 +52,25 @@ export const detectImage = async (imgSource, model, classThreshold, canvasRef) =
     const boxes_data = boxes.dataSync();
     const scores_data = scores.dataSync();
     const classes_data = classes.dataSync();
-    renderBoxes(canvasRef, classThreshold, boxes_data, scores_data, classes_data, [xRatio, yRatio]); // render boxes
+    const results = renderBoxes(canvasRef, classThreshold, boxes_data, scores_data, classes_data, [xRatio, yRatio]); // render boxes
+    
+    // console.log('result ', results);
+    // results.forEach((result) => {
+    //   const klass = result.klass;
+    //   const score = result.score;
+    
+    
+    //   console.log('detect.js ', klass, score)
+    //   // klass와 score를 사용하는 로직 작성
+    // });
+
     tf.dispose(res); // clear memory
-  console.log(classes_data)
-    
-  });
-
-    
-
   tf.engine().endScope(); // end of scoping
-};
+})};
+
+
+
+// console.log('result ', results)
 
 /**
  * Function to detect video from every source.

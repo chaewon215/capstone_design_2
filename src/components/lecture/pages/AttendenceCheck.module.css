@@ -1,3 +1,6 @@
+@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css);
+
+
 li{
     list-style-type: none;
 }
@@ -7,13 +10,49 @@ td{
     text-align: center;
 }
 
-.AttendenceCheckTable, th, td {
-    border: 1px solid #bcbcbc;
-    border-radius: 5px 5px 5px 5px;
-  }
+.lectureName {
+    text-align: left;
+    /* line-height: 1.5; */
+    color: black;
+    font: optional;
+    font-family: 'KCCChassam';
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.AttendenceCheckTable {
+    width: 250px;
+    border-collapse: collapse;
+
+    font-family: 'NanumSquare';
+}
+
+.AttendenceCheckTable th {
+    border-collapse: collapse;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    font-family: 'NanumSquare';
+}
+
+.AttendenceCheckTable td {
+    border-collapse: collapse;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    font-family: 'NanumSquare';
+}
+
+.classCols {
+    border-left: 0;
+
+}
+
+.btnCols {
+    border-right: 0;
+}
+
 
 .AttendenceCamBox {
-    width: 850px;
+    /* width: 1000px; */
     position: absolute;
     top: 50%;
     left: 50%;
@@ -26,7 +65,13 @@ td{
 
 .ipCamTd {
     margin: auto;
+    /* width: 500px; */
 } 
+.btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
 
 .startCam {
     border: none;
@@ -40,3 +85,7 @@ td{
 .pMargin {
     margin-top: 0px; margin-bottom: 0px;
 }
+
+/* .content {
+    scale: 100%;
+} */

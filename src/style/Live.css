@@ -29,18 +29,18 @@
 
 .content > img {
   display: none;
-  width: 100%;
-  max-width: 720px;
-  max-height: 500px;
+  width: 140%;
+  /* max-width: 720px; */
+  /* max-height: 500px; */
   border-radius: 10px;
 }
 
 .content > video {
   display: none;
-  width: 100%;
-  max-width: 720px;
-  max-height: 500px;
-  border-radius: 10px;
+  width: 140%;
+  /* max-width: 720px; */
+  /* max-height: 500px; */
+  border-radius: 8px;
 }
 
 .content {
@@ -51,7 +51,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 140%;
   height: 100%;
 }
 

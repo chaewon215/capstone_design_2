@@ -37,18 +37,25 @@ function LectureList(){
 
     return (
         <div>
-            <div className={styles.TitleBox}>
+            {/* <div className={styles.TitleBox}>
                 <h1 className={styles.ListTitle}>진행 강좌 목록</h1>
-            </div>
+            </div> */}
             <div className={styles.LecturesBox}>
                 <table className={styles.LecturesTable}>
+                    <th colSpan={2} className={styles.ListTitle}>
+                        나의 강좌 목록
+                        {/* <br></br> */}
+                        <hr></hr>
+                    </th>
 
                 {inputData ? inputData.map((inputDatas)=>(
                         <tr id={inputDatas.lecture_code}>
-                            <td>
+                            <td className={styles.classCols} border-left='0'>
+                                <div padding='10px'>
                                     <li>{inputDatas.lecture_name}</li>
+                                </div>
                             </td>
-                            <td border='none'>
+                            <td className={styles.btnCols}>
                                 {/* <button><Link to={`/attendence/${inputDatas.lecture_code}`}>출석체크</Link></button> */}
                                 {/* <button type='button' onClick={`/attendence/?id=${inputDatas.lecture_code}`}>출석체크</button> */}
                                 <Link to={`/${inputDatas.lecture_code}`}>
