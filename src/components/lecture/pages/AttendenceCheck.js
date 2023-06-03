@@ -44,6 +44,7 @@ function StudentList(){
             // console.log('attendenceCheck.js', res.data.lecture_code);
             setInputData(res.data);
             // console.log(res.data[0][`attendence${_mm_dd}`]);
+            console.log(res.data);
         })
         .catch((err)=>{
             console.log(err);
@@ -87,7 +88,7 @@ function StudentList(){
       const warmupResult = await yolov5.executeAsync(dummyInput);
       tf.dispose(warmupResult); // cleanup memory
       tf.dispose(dummyInput); // cleanup memory
-      console.log('model', model)
+    //   console.log('model', model)
       setLoading({ loading: false, progress: 1 });
       setModel({
         net: yolov5,
@@ -116,11 +117,11 @@ function StudentList(){
 
         <div className={styles.AttendenceCamBox}>
                 <table className={styles.AttendenceCamTable}>
-                {/* {inputData ? inputData.map((inputDatas)=>(
-                    <tr height='100px'>
-                        <p>{inputDatas.lecture_code}</p>
-                    </tr>
-                    ))[0] : ''} */}
+                {inputData ? inputData.map((inputDatas)=>(
+                    <th colSpan={2} className={styles.lectureName}>
+                        <p>{inputDatas.lecture_name}</p>
+                    </th>
+                    ))[0] : ''}
                         <tr height='400'>
                             <td className={styles.attendenceTd}>
                                 <table className={styles.AttendenceCheckTable}>
@@ -131,10 +132,10 @@ function StudentList(){
                                     
                                     {inputData ? inputData.map((inputDatas)=>(                 
                                         <tr id={inputDatas.student_id} height='30px'>
-                                            <td>
+                                            <td className={styles.classCols}>
                                                     <li>{inputDatas.student_name}</li>
                                             </td>
-                                            <td>
+                                            <td className={styles.btnCols}>
                                                 <p className={styles.pMargin}>
                                                     {inputDatas[`${attendence_mm_dd}`]}
                                                 </p>
@@ -143,10 +144,11 @@ function StudentList(){
                                     )) : ''} 
                                 </table>
                             </td>
+                                                                
                         
                             <td className={styles.ipCamTd}>
                                 <td>
-                                    <ButtonHandler cameraRef={cameraRef} />
+                                    <ButtonHandler className={styles.btn} cameraRef={cameraRef} />
                                     
                                 </td>
                                 
@@ -168,8 +170,9 @@ function StudentList(){
                                 </div>
                             </td>
 
-                        </tr>
+                        </tr> 
                 </table>
+
                 
                 <div className={styles.modifyBtn}>
                     {inputData ? inputData.map((inputDatas)=>(

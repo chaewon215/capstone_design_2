@@ -54,7 +54,7 @@ export const renderBoxes = (
   const font = `${Math.max(
     Math.round(Math.max(ctx.canvas.width, ctx.canvas.height) / 40),
     14
-  )}px Arial`;
+  ) / 1.3}px NanumSquare`;
   ctx.font = font;
   ctx.textBaseline = "top";
 
@@ -70,7 +70,9 @@ export const renderBoxes = (
       // console.log('scores_data ', scores_data);
 
 
-
+    
+    console.log('default ', Attendence['default'].length);
+    
 
 
     if (count > 100 && score >= 50) {

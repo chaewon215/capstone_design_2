@@ -122,8 +122,23 @@ router.get('/attendence', (req, res) => {
         if(err3) {
             console.error(err3);
         } else {
-            console.log('success', result3);
-            res.send(result3);
+            console.log('success', result3[0].lecture_code);
+            // res.send(result3);
+            var sql3 = 'SELECT lecture_name FROM capstone2.lectures WHERE lecture_code=?'
+            db.query(sql3, lecture_code, (err4, result4) => {
+              if (err4){
+                console.error(err4);
+              } else {
+                let response = []
+                const filter = result3.map(data => ({
+                  ...data, lecture_name: result4[0].lecture_name
+                }))
+
+                response = [...filter]
+                res.send(response);
+                console.log(response);       
+              }
+            })
         }
     });
 })
@@ -148,7 +163,22 @@ router.get('/edit', (req, res) => {
             console.error(err3);
         } else {
             console.log('success', result3);
-            res.send(result3);
+            // res.send(result3);
+            var sql3 = 'SELECT lecture_name FROM capstone2.lectures WHERE lecture_code=?'
+            db.query(sql3, lecture_code, (err4, result4) => {
+              if (err4){
+                console.error(err4);
+              } else {
+                let response = []
+                const filter = result3.map(data => ({
+                  ...data, lecture_name: result4[0].lecture_name
+                }))
+
+                response = [...filter]
+                res.send(response);
+                console.log(response);       
+              }
+            })
         }
     })
 })
@@ -229,7 +259,7 @@ router.post('/update', (req, res) => {
             console.error(err);
           } else {
             // 결과 처리
-            console.log('Updated student: ' + studentName[i]);
+            console.log('Updated student: ', studentName[i]);
           }
         });
 

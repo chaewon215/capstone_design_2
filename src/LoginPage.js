@@ -87,36 +87,83 @@ function LoginPage() {
   
   
       return(
-          <div className={styles.page}>
-              <div className={styles.contentWrap}>
-                  <div className={styles.system}>학생 출결 관리 시스템</div>
+        <div className={styles.box}>
+        <table className={styles.tbl}>
+          <tr className={styles.system}>
+              학생 출결 관리 시스템
+          </tr>
+          <tr><hr></hr></tr>
+          <tr>
+            <div className={styles.titleWrap}>
+              <img width='400px' src={img} alt="Logo" /> {/* //학교 이미지*/}
+            </div>
+          </tr>
+
+          <tr className={styles.inputWrap}>
+            <input type="text" name='id' id='id' autoComplete='off' required
+            placeholder='USERNAME'
+            value={username}
+            onChange={handleusername}></input>
+          </tr>
   
-                  <div className={styles.titleWrap}>
-                      <img src={img} alt="Logo" /> {/* //학교 이미지*/}
-                  </div>  
-  
-                  <div className={styles.inputWrap}>
-                      <input type="text" name='id' id='id' autoComplete='off' required
-                      placeholder='USERNAME'
-                      value={username}
-                      onChange={handleusername}></input>
-                  </div>
-  
-                  <div className={styles.inputWrap}>
-                  <input type="password" name='pw' id='pw' autoComplete='off' required
-                      placeholder='PASSWORD'
-                      value={password}
-                      onChange={handlepassword}></input>
-                  </div>
+            <tr className={styles.inputWrap}>
+              <input type="password" name='pw' id='pw' autoComplete='off' required
+                  placeholder='PASSWORD'
+                  value={password}
+                  onChange={handlepassword}></input>
+            </tr>
    
-                  <div className={styles.btn}>
-                      <button onClick={onClickConfirmButton} disabled={notallow} type='submit'>LOGIN</button>
-                  </div>
+            <tr>
+              <div  className={styles.btn}>
+                <button onClick={onClickConfirmButton} disabled={notallow} type='submit'>LOGIN</button>
               </div>
-  
+            </tr>
+            <tr>
+              <p className={styles.copyright}>Developed by 빠지지말아조 | hayeong koo,chaewon kim</p>
+            </tr>
+        </table>
+
+
+
           </div>
       )
   }
 
 
 export default LoginPage;
+
+
+
+
+// <div className={styles.page}>
+// <div className={styles.contentWrap}>
+//     <div className={styles.system}>
+//       <p className={styles.titleText}>
+//         학생 출결 관리 시스템
+//       </p>
+//     </div>
+
+//     <div className={styles.titleWrap}>
+//         <img src={img} alt="Logo" /> {/* //학교 이미지*/}
+//     </div>  
+
+//     <div className={styles.inputWrap}>
+//         <input type="text" name='id' id='id' autoComplete='off' required
+//         placeholder='USERNAME'
+//         value={username}
+//         onChange={handleusername}></input>
+//     </div>
+
+//     <div className={styles.inputWrap}>
+//     <input type="password" name='pw' id='pw' autoComplete='off' required
+//         placeholder='PASSWORD'
+//         value={password}
+//         onChange={handlepassword}></input>
+//     </div>
+
+//     <div className={styles.btn}>
+//         <button onClick={onClickConfirmButton} disabled={notallow} type='submit'>LOGIN</button>
+//     </div>
+// </div>
+
+// </div>

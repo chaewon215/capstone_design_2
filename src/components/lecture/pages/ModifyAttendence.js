@@ -55,7 +55,11 @@ const ModifyAttendence = () => {
 
     <div className={styles.AttendenceCamBox}>
         <table className={styles.AttendenceCamTable}>
-            {/* thead, tbody 설정하기... */}
+        {Object.values(fetchedData) ? Object.values(fetchedData).map((fetchedDatas)=>(
+                      <th colSpan={2} className={styles.lectureName}>
+                          <p>{fetchedDatas.lecture_name}</p>
+                      </th>
+                        )) : ''}
             <tr height='400'>
 
                 <td className={styles.attendenceTd}>
@@ -67,10 +71,10 @@ const ModifyAttendence = () => {
                         {Object.values(fetchedData) ? Object.values(fetchedData).map((fetchedDatas)=>(
                             
                             <tr id={fetchedDatas.student_id} height='30px'>
-                                <td>
+                                <td className={styles.classCols}>
                                         <li>{fetchedDatas.student_name}</li>
                                 </td>
-                                <td className={styles.pMargin}>
+                                <td className={styles.btnCols}>
                                     {/* <p>{inputDatas[`attendence${_mm_dd}`]}</p> */}
                                     {/* <select onChange={handleInputChange} name={`${itemData[0].student_id}`} value={itemData[0].attendence_04_12 || ''}>{options}</select> */}
                                     <select onChange={handleInputChange} name={fetchedDatas.student_name}>

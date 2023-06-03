@@ -8,7 +8,7 @@ import { useNavigate, Route, Link, useParams, Routes, Router } from 'react-route
 
 export const updatedAttend = new Map();
 for (let i = 0; i <= labels.length; i++) { 
-  updatedAttend[labels[i]] = '-';
+  updatedAttend[labels[i]] = '출석';
 }
 
 
