@@ -22,7 +22,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Login />} />
           {/* <Route path="/dashboard" element={<Dashboard IsLogin={IsLogin} />} /> */}
-          <Route exact path='/lectures' element={<LectureList />}></Route>
+          <Route exact path=':prfid/lectures' element={<LectureList />}></Route>
           <Route path='/:id' element={<AttendenceCheck />}></Route>
           <Route path='/:id/edit' element={<ModifyAttendence />}></Route>
           {/* <Route exact path='/' element={<Live />}></Route> */}

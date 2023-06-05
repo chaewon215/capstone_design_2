@@ -1,7 +1,7 @@
 // import Login from './Login';
 import axios from 'axios'; 
 import React, {useEffect }  from 'react';
-import { BrowserRouter, Routes, Route, Switch, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Link, Routes, Route, Switch, useNavigate } from 'react-router-dom';
 // import Dashboard from './Dashboard';
 import img from "./jnu_logo.png";
 
@@ -68,11 +68,11 @@ function LoginPage() {
           }).then(response => {
             const data = response.data;
             if (data.result === true) {
-              alert('로그인 되었습니다!');
+              // alert('로그인 되었습니다!');
               sessionStorage.setItem('user_ID', username);
               const storedUsername = sessionStorage.getItem('user_ID');
               console.log("로그인 아이디 : ", storedUsername); // 출력 결과: "my_username"
-              navigate('/lectures');
+              navigate(`${storedUsername}/lectures`);
               // 로그인 성공 시 처리
             } else {
               console.log(response.data);
@@ -115,55 +115,16 @@ function LoginPage() {
    
             <tr>
               <div  className={styles.btn}>
+              {/* <Link to={`/${username}/edit`}> */}
                 <button onClick={onClickConfirmButton} disabled={notallow} type='submit'>LOGIN</button>
+              {/* </Link> */}
               </div>
             </tr>
-            <tr>
-              <p className={styles.copyright}>Developed by 빠지지말아조 | hayeong koo,chaewon kim</p>
-            </tr>
         </table>
-
-
-
-          </div>
+            <p className={styles.copyright}>Developed by 빠지지말아조 | hayeong koo, chaewon kim</p>
+        </div>
       )
   }
 
 
 export default LoginPage;
-
-
-
-
-// <div className={styles.page}>
-// <div className={styles.contentWrap}>
-//     <div className={styles.system}>
-//       <p className={styles.titleText}>
-//         학생 출결 관리 시스템
-//       </p>
-//     </div>
-
-//     <div className={styles.titleWrap}>
-//         <img src={img} alt="Logo" /> {/* //학교 이미지*/}
-//     </div>  
-
-//     <div className={styles.inputWrap}>
-//         <input type="text" name='id' id='id' autoComplete='off' required
-//         placeholder='USERNAME'
-//         value={username}
-//         onChange={handleusername}></input>
-//     </div>
-
-//     <div className={styles.inputWrap}>
-//     <input type="password" name='pw' id='pw' autoComplete='off' required
-//         placeholder='PASSWORD'
-//         value={password}
-//         onChange={handlepassword}></input>
-//     </div>
-
-//     <div className={styles.btn}>
-//         <button onClick={onClickConfirmButton} disabled={notallow} type='submit'>LOGIN</button>
-//     </div>
-// </div>
-
-// </div>

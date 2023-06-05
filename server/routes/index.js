@@ -40,7 +40,7 @@ router.post('/user_inform', (req, res) => {
       if (error) {
         console.log(error);
       }
-      
+      // console.log(results);     
       const count = results[0].count;
       const result = (count === 1);
   
@@ -60,10 +60,16 @@ router.post('/user_inform', (req, res) => {
 router.get('/test', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
 
-    var sql1 = "SELECT * FROM capstone2.lectures;";
-    
+    var q = url.parse(req.headers.referer);
+    var lecture_code = q.path.split('/')[1];
+    // console.log('lecture_code', lecture_code);
+
+    // var sql1 = "SELECT * FROM capstone2.lectures";
+    var sql1 = `SELECT * FROM capstone2.lectures WHERE professors_id='${lecture_code}' ORDER BY lecture_name;`;
+
     db.query(sql1, (err, result) => {
         if(!err) {
+          console.log(result);
             res.send(result);
 
             var today = new Date();
@@ -117,21 +123,21 @@ router.get('/attendence', (req, res) => {
     var q = url.parse(req.headers.referer);
     var lecture_code = q.path.substring(1);
 
-    var sql2 = `SELECT student_name, lecture_code, ${attendence_mm_dd} FROM capstone2.studentforlecture WHERE lecture_code=?;`
+    var sql2 = `SELECT student_name, student_id, lecture_code, ${attendence_mm_dd} FROM capstone2.studentforlecture WHERE lecture_code=? ORDER BY student_name;`
     db.query(sql2, lecture_code, (err3, result3) => {
         if(err3) {
             console.error(err3);
         } else {
             console.log('success', result3[0].lecture_code);
             // res.send(result3);
-            var sql3 = 'SELECT lecture_name FROM capstone2.lectures WHERE lecture_code=?'
+            var sql3 = 'SELECT lecture_name, professors_id FROM capstone2.lectures WHERE lecture_code=?'
             db.query(sql3, lecture_code, (err4, result4) => {
               if (err4){
                 console.error(err4);
               } else {
                 let response = []
                 const filter = result3.map(data => ({
-                  ...data, lecture_name: result4[0].lecture_name
+                  ...data, lecture_name: result4[0].lecture_name, professors_id: result4[0].professors_id
                 }))
 
                 response = [...filter]
@@ -156,7 +162,7 @@ router.get('/edit', (req, res) => {
     var lecture_code = q.path.split('/')[1];
     // console.log('q', q);
 
-    var sql2 = `SELECT student_name, lecture_code, ? FROM capstone2.studentforlecture WHERE lecture_code=?;`
+    var sql2 = `SELECT student_name, student_id, lecture_code, ? FROM capstone2.studentforlecture WHERE lecture_code=? ORDER BY student_name;`
     var values = [attendence_mm_dd, lecture_code];
     db.query(sql2, values, (err3, result3) => {
         if(err3) {
