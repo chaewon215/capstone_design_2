@@ -1,0 +1,112 @@
+@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css);
+
+.list-wrapper {
+    padding: 100px 80px;
+}
+
+.icon {
+    width: 160px;
+    height: 100px;
+    background-size: cover;
+    /* background-image: url('../../../static/folder.png'); */
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+.link {
+    color: black;
+    padding: 110px 0;
+}
+
+.LecturesBox {
+    margin-top: 80px;
+}
+
+.LecturesTable {
+    border-collapse: collapse;
+    margin: 0 auto;
+    position: relative;
+    margin-top: 30px;
+}
+
+.LecturesTable tr {
+    border-collapse: collapse;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    
+}
+
+.LecturesTable tr:hover {
+    background-color: rgb(250, 250, 250);
+    /* cursor: pointer; */
+}
+
+.LecturesTable td {
+    font-family: 'NanumSquare';
+    padding: 5px;
+    /* text-align: right; */
+}
+
+.classCols {
+    border-left: 0;
+}
+
+.btnCols {
+    border-right: 0;
+}
+
+
+.ListTitle {
+    text-align: center;
+    /* line-height: 1.5; */
+    color: black;
+    font: optional;
+    font-family: 'GmarketSansBold';
+    font-size: 30px;
+    font-weight: 700;
+  }
+
+
+.listTableIndex {
+    height: 20px;
+}
+
+button {
+    font-family: 'NanumSquare';
+    cursor: pointer;
+}
+
+.copyright {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    color: rgb(180,180,180);
+    text-align: center;
+    margin: 0 auto;
+    font-family: 'NanumSquare';
+}
+
+.logoutBtnBox {
+    position: absolute;
+    left: 0;
+    top: 15px;
+    width: 98%;
+    text-align: right;
+    /* padding-right: 50px; */
+}
+
+.logoutBtnBox button {
+    background-color: transparent;
+    color: gray;
+    border: none;
+    /* text-decoration: underline; */
+}
+
+.logoutBtnBox button:hover {
+    background-color: transparent;
+    color: gray;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+}

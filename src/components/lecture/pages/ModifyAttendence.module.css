@@ -1,0 +1,136 @@
+@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css);
+
+
+li{
+    list-style-type: none;
+}
+
+td{
+    margin: auto;
+    text-align: center;
+}
+
+.lectureName {
+    text-align: left;
+    /* line-height: 1.5; */
+    color: black;
+    font: optional;
+    font-family: 'GmarketSansBold';
+    font-size: 30px;
+    /* font-weight: 700; */
+}
+
+.AttendenceCamTable {
+    margin-left: 100px;
+    margin-top: 80px;
+}
+
+.AttendenceCheckTable {
+    width: 250px;
+    border-collapse: collapse;
+    font-family: 'NanumSquare';
+}
+
+.AttendenceCheckTable th {
+    border-collapse: collapse;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    font-family: 'NanumSquare';
+}
+
+.AttendenceCheckTable td {
+    border-collapse: collapse;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    font-family: 'NanumSquare';
+}
+
+.classCols {
+    border-left: 0;
+
+}
+
+.btnCols {
+    border-right: 0;
+}
+
+
+.AttendenceCamBox {
+    width: 80%;
+    height: 540px;
+}
+
+.attendenceTd {
+    vertical-align : top;
+    padding: 15px;
+}
+
+.ipCamTd {
+    margin: auto;
+    /* width: 500px; */
+} 
+.btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+.startCam {
+    border: none;
+}
+
+.modifyBtn {
+    margin-top: 10px;
+}
+
+
+.pMargin {
+    margin-top: 0px; margin-bottom: 0px;
+}
+
+/* .content {
+    scale: 100%;
+} */
+
+.copyright {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    color: rgb(180,180,180);
+    text-align: center;
+    margin: 0 auto;
+    font-family: 'NanumSquare';
+}
+
+
+.logoutBtnBox {
+    position: absolute;
+    left: 0;
+    top: 15px;
+    width: 98%;
+    text-align: right;
+    /* padding-right: 50px; */
+}
+
+
+.logoutBtnBox button {
+    background-color: transparent;
+    color: gray;
+    border: none;
+    /* text-decoration: underline; */
+}
+
+.logoutBtnBox button:hover {
+    background-color: transparent;
+    color: gray;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+.btnsRow {
+    padding: 10px;
+}
