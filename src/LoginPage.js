@@ -90,6 +90,7 @@ function LoginPage(props) {
         user_ID: userid,
         user_pw: password,
       };
+      console.log(userData)
       fetch("/api/user_inform", { //auth 주소에서 받을 예정
         method: "POST", // method :통신방법
         headers: {      // headers: API 응답에 대한 정보를 담음

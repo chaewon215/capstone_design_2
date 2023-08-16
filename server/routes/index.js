@@ -75,7 +75,7 @@ router.get("/user_inform", (req, res) => {
 // });
 
 router.post("/user_inform", (req, res) => { // 데이터 받아서 결과 전송
-  const username = req.body.userName;
+
   const userid = req.body.user_ID;
   const password = req.body.user_pw;
   const sendData = { isLogin: "" };
@@ -85,9 +85,8 @@ router.post("/user_inform", (req, res) => { // 데이터 받아서 결과 전송
       db.query('SELECT * FROM user WHERE user_ID = ?', [userid], function (error, results, fields) {
           if (error) throw error;
           if (results.length > 0) {       // db에서의 반환값이 있다 = 일치하는 아이디가 있다.      
-              // console.log('password', password);
-              // console.log('results[0].user_chn', results[0].user_chn);
-              // console.log('is it same? ', password == results[0].user_chn);
+              console.log('password', password);
+              console.log('results[0].user_chn', results[0].user_chn);
             
               bcrypt.compare(password , results[0].user_chn, (err, result) => {    // 입력된 비밀번호가 해시된 저장값과 같은 값인지 비교
                 
@@ -132,7 +131,7 @@ router.post("/signup", (req, res) => {  // 데이터 받아서 결과 전송
           if (error) throw error;
           if (results.length <= 0 && password == password2) {         // DB에 같은 이름의 회원아이디가 없고, 비밀번호가 올바르게 입력된 경우
               const hasedPassword = bcrypt.hashSync(password, 10);    // 입력된 비밀번호를 해시한 값
-              db.query('INSERT INTO user (user_name, user_ID, user_pw, user_chn) VALUES(?,?,?,?)', [username, userid, password, hasedPassword], function (error, data) {
+              db.query('INSERT INTO user (user_name, user_ID, user_chn) VALUES(?,?,?)', [username, userid, hasedPassword], function (error, data) {
                   if (error) throw error;
                   req.session.save(function () {                        
                       sendData.isSuccess = "True"
